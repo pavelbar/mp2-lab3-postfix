@@ -63,13 +63,13 @@ TEST(TStack, isEmpty_false) //полный стек - не пуст
 	TStack<int> v(2);
 	v.Push(4);
 	v.Push(4);
-	EXPECT_EQ(0, IsEmpty());
+	EXPECT_EQ(0, v.IsEmpty());
 }
 
 TEST(TStack, isEmpty_trye) //пустой стек - пуст
 {
 	TStack<int> v(2);
-	EXPECT_EQ(1, IsEmpty());
+	EXPECT_EQ(1, v.IsEmpty());
 }
 
 TEST(TStack, isFull_try) //полный стек - полон
@@ -77,11 +77,11 @@ TEST(TStack, isFull_try) //полный стек - полон
 	TStack<int> v(2);
 	v.Push(4);
 	v.Push(4);
-	EXPECT_EQ(1, isFull());
+	EXPECT_EQ(1, v.isFull());
 }
 
 TEST(TStack, isFull_false)  //пустой стек - не полон
 {
 	TStack<int> v(2);
-	EXPECT_EQ(0, isFull());
+	EXPECT_EQ(0, v.isFull());
 }
