@@ -12,9 +12,9 @@ public:
 	TStack(int len);
 	bool IsEmpty();
 	bool IsFull();
-	void Push(ValType val); // положить элемент 
-	ValType Pop(); //взять элемент
-	ValType Top(); // посмотреть элемент
+	void Push(ValType val); // ГЇГ®Г«Г®Г¦ГЁГІГј ГЅГ«ГҐГ¬ГҐГ­ГІ 
+	ValType Pop(); //ГўГ§ГїГІГј ГЅГ«ГҐГ¬ГҐГ­ГІ
+	ValType Top(); // ГЇГ®Г±Г¬Г®ГІГ°ГҐГІГј ГЅГ«ГҐГ¬ГҐГ­ГІ
 };
 
 template <class ValType>
@@ -41,7 +41,7 @@ template<class ValType>
 void TStack<ValType>::Push(ValType val)
 {
 	if(IsFuLL()!=true)
-		return pMem[count++]=val;
+	pMem[count++]=val;
 }
 
 template <class ValType>
