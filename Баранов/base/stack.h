@@ -1,61 +1,62 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 #include <cstddef>
-
 const int MaxSize = 100;
-template <class ValType>
+template <class T>
 class TStack
 {
 protected:
-	ValType *pMem;
+	T *pMem;
 	int size;
 	int count;
 public:
-	TStack(int len);
+	TStack(int =10);
 	~TStack();
 	bool IsEmpty();
 	bool isFull();
-	void Push(const ValType &val);//add
-	ValType Pop();//вз€ть верхний и удалить
-	ValType Top();//view
+	void Push(const T &val);//add
+	T Pop();//вз€ть верхний и удалить
+	T Top();//view
 };
 //-----------------------------------
-template <class ValType>
-TStack<ValType>::TStack(int len) {
+template <class T>
+TStack<T>::TStack(int len) {
 	if ((len<1) || (len>MaxSize)) throw (len);
 	size = len;
 	count = 0;
-	pMem = new ValType[size];
+	pMem = new T[size];//2 эл-та pMem[0] and pMem[1]
 }
 
-template <class ValType>
-TStack<ValType>::~TStack() {
+template <class T>
+TStack<T>::~TStack() {
 	delete[]pMem;
 	pMem = NULL;
 }
 
-template <class ValType>
-bool TStack<ValType>::IsEmpty() {
-	return(count == MaxSize);
+template <class T>
+bool TStack<T>::IsEmpty() {
+	return(count == 0);
 }
 
-template <class ValType>
-bool TStack<ValType>::isFull() {
-	return (count == 0);
+template <class T>
+bool TStack<T>::isFull() {
+	return (count == size);
 }
 
-template <class ValType>
-void TStack<ValType>::Push(const ValType &val) {
+template <class T>
+void TStack<T>::Push(const T &val) {
 	if (isFull())  throw (count);
-	pMem[count++] = val; }
+	pMem[count] = val; 
+	count++;}
 
-template <class ValType>
-ValType TStack<ValType>::Pop() {
+template <class T>
+T TStack<T>::Pop() {
 	if (IsEmpty()) throw (count);
-	return pMem[(count--) - 1]; }
+	count--;
+	return pMem[count]; }
 
-template <class ValType>
-ValType TStack<ValType>::Top() {
+template <class T>
+T TStack<T>::Top() {
 	if (IsEmpty()) throw (count);
-	return pMem[count - 1]; }
+	return pMem[count-1]; }
 #endif
