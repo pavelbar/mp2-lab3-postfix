@@ -11,9 +11,9 @@ class TPostfix
   string infix;
   string postfix;
 public:
-  TPostfix()
+  TPostfix(string val)
   {
-    infix = "a + b";
+    infix = val;
   }
   string GetInfix() { return infix; }
   string GetPostfix() { return postfix; }
