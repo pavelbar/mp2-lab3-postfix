@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "stack.h"
 #include <iostream>
-//кодировка
+
 using namespace std;
 
 int main(int argc, char **argv)

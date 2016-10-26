@@ -1,6 +1,6 @@
 #include "stack.h"
 #include <gtest.h>
-//кодировка
+
 TEST(TStack, can_create_stack_with_positive_length)//стек с положительной длиной
 {
 	ASSERT_NO_THROW(TStack<int> v(5));

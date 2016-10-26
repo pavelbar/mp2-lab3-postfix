@@ -1,7 +1,7 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 #include <cstddef>
-//кодировка
+
 const int MaxSize = 100;
 template <class T>
 class TStack
@@ -48,16 +48,19 @@ template <class T>
 void TStack<T>::Push(const T &val) {
 	if (isFull())  throw (count);
 	pMem[count] = val; 
-	count++;}
+	count++;
+}
 
 template <class T>
 T TStack<T>::Pop() {
 	if (IsEmpty()) throw (count);
 	count--;
-	return pMem[count]; }
+	return pMem[count]; 
+}
 
 template <class T>
 T TStack<T>::Top() {
 	if (IsEmpty()) throw (count);
-	return pMem[count-1]; }
+	return pMem[count-1]; 
+}
 #endif
