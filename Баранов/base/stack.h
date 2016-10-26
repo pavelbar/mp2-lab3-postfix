@@ -1,6 +1,7 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 #include <cstddef>
+//кодировка
 const int MaxSize = 100;
 template <class T>
 class TStack
