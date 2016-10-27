@@ -6,12 +6,12 @@ TEST(TStack, can_create_stack_with_positive_length)//стек с положительной длиной
 	ASSERT_NO_THROW(TStack<int> v(5));
 }
 
-TEST(TStack, throws_when_create_stack_with_negative_length)//стек с отрицательной длиной
+TEST(TStack, cant_create_stack_with_negative_length)//стек с отрицательной длиной
 {
 	ASSERT_ANY_THROW(TStack<int> v(-5));
 }
 
-TEST(TStack, can_create_stack_with_zero_length) //стек с нулевой длиной
+TEST(TStack, cant_create_stack_with_zero_length) //стек с нулевой длиной
 {
 	ASSERT_ANY_THROW(TStack<int> v(0));
 }
@@ -21,7 +21,7 @@ TEST(TStack, cant_create_too_large_stack) //стек большой длины
 	ASSERT_ANY_THROW(TStack<int> v(MaxSize + 1));
 }
 
-TEST(TStack, can_push_to_full_stack) //добавить в полный стек
+TEST(TStack, cant_push_to_full_stack) //добавить в полный стек
 {
 	TStack<int> v(2);
 	v.Push(1);
@@ -29,13 +29,13 @@ TEST(TStack, can_push_to_full_stack) //добавить в полный стек
 	ASSERT_ANY_THROW(v.Push(4));
 }
 
-TEST(TStack, can_pop_of_clear_stack) //показать и удалить из пустого стека
+TEST(TStack, cant_pop_of_clear_stack) //показать и удалить из пустого стека
 {
 	TStack<int> v(2);
 	ASSERT_ANY_THROW(v.Pop());
 }
 
-TEST(TStack, can_top_of_clear_stack) //показать из пустого стека
+TEST(TStack, cant_top_of_clear_stack) //показать из пустого стека
 {
 	TStack<int> v(2);
 	ASSERT_ANY_THROW(v.Top());
