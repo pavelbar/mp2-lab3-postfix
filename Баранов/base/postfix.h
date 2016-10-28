@@ -1,4 +1,4 @@
-#ifndef __POSTFIX_H__
+п»ї#ifndef __POSTFIX_H__
 #define __POSTFIX_H__
 
 #include <string>
@@ -8,17 +8,17 @@ using namespace std;
 
 class TPostfix
 {
-  string infix;
-  string postfix;
+	string infix;
+	string postfix;
 public:
-  TPostfix()
-  {
-    infix = "a + b";
-  }
-  string GetInfix() { return infix; }
-  string GetPostfix() { return postfix; }
-  string ToPostfix();
-  double Calculate(); // Ввод переменных, вычисление по постфиксной форме
+	TPostfix(string val)
+	{
+		infix = val;
+	}
+	string GetInfix() { return infix; }
+	string GetPostfix() { return postfix; }
+	string ToPostfix();
+	double Calculate(); // Г‚ГўГ®Г¤ ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г»Гµ, ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ ГЇГ® ГЇГ®Г±ГІГґГЁГЄГ±Г­Г®Г© ГґГ®Г°Г¬ГҐ
 };
 
 #endif
