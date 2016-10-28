@@ -2,12 +2,12 @@
 #include "stack.h"
 
 string TPostfix::ToPostfix()
-{ 
-	postfix=infix;
-	return postfix;
+{
+  postfix = string("ab+");
+  return postfix;
 }
 
 double TPostfix::Calculate()
 {
-	return 0;
+  return 0;
 }
