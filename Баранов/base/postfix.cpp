@@ -3,11 +3,12 @@
 
 string TPostfix::ToPostfix()
 {
-  postfix = string("ab+");
-  return postfix;
+	postfix = infix;
+	return postfix;
 }
 
 double TPostfix::Calculate()
 {
-  return 0;
+	//not implemented
+	return 0;
 }
