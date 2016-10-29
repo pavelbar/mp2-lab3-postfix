@@ -5,12 +5,13 @@ using namespace std;
 
 string TPostfix::ToPostfix()
 {
-	string result;
+	char result[100];
 	int result_pos=0;
 	TStack<char> stack_op(100);
 	//---приоритеты----
 	int arg_stack_priority;
 	int arg_priority;
+	char tmp_char;
 	/*http://natalia.appmat.ru/c&c++/postfisso.html
 	Алгоритм перевода выражения в постфиксную запись следующий:
 	(1) Константы и переменные кладутся в формируемую запись в порядке их появления в исходном массиве.
@@ -25,17 +26,19 @@ string TPostfix::ToPostfix()
 		удаляется из стека.
 	(4)После того, как мы добрались до конца исходного выражения, операции, оставшиеся в стеке, перекладываются в формируемое выражение.
 	*/
-	for (int i = 0; i<infix.length(); i++)
+	for (unsigned int i = 0; i<infix.length(); i++)
 	{
-		if ((infix[i] = '+') || (infix[i] = '-') || (infix[i] = '*') || (infix[i] = '/'))
+		tmp_char = infix[i];
+		if ((tmp_char == '+') || (tmp_char == '-') || (tmp_char == '*') || (tmp_char == '/'))
 		{
-			if ((stack_op.IsEmpty() == 0) && (stack_op.Top() == '(')) stack_op.Push(infix[i]);//(a)
+			if ((stack_op.IsEmpty() == 0) && (stack_op.Top() == '(')) stack_op.Push(tmp_char);//(a)
 			//-----(b)-----
-			if  ((stack_op.IsEmpty() == 0))
+			if ((stack_op.IsEmpty() == 0))
 			{
-			arg_stack_priority = Priority(infix[i]);
-			arg_priority = Priority(stack_op.Top());
-			 if ((stack_op.IsEmpty() == 0) && (arg_priority > arg_stack_priority)) stack_op.Push(infix[i]);
+				arg_stack_priority = Priority(stack_op.Top());
+				arg_priority = Priority(tmp_char);
+			}
+			 if ((stack_op.IsEmpty() == 0) && (arg_priority > arg_stack_priority)) stack_op.Push(tmp_char);
 			//-------------
 			else
 				//-----(c)-----
@@ -47,21 +50,22 @@ string TPostfix::ToPostfix()
 
 						result[result_pos] = stack_op.Pop();
 						result_pos++;
+						result[result_pos] = NULL;
 
 					}
-				if (stack_op.IsEmpty() == 0)
-				stack_op.Push(infix[i]);
+				stack_op.Push(tmp_char);
 				//-------------
 			}
-		}
-			if ((stack_op.IsEmpty() == 0)&& ( infix[i] == '(' )) stack_op.Push(infix[i]);//(2)
+		
+			if ( tmp_char == '(' ) stack_op.Push(tmp_char);//(2)
 			//-----(3)-----
-			if ((stack_op.IsEmpty() == 0) && (infix[i] == ')'))
+			if ((stack_op.IsEmpty() == 0) && (tmp_char == ')'))
 			{
 				while ((stack_op.IsEmpty() == 0)&& (stack_op.Top() != '('))//пока
 				{
 					result[result_pos] = stack_op.Pop();
 					result_pos++;
+					result[result_pos] = '\0';
 				}
 				if (stack_op.IsEmpty() == 0)
 				stack_op.Pop();
@@ -70,8 +74,9 @@ string TPostfix::ToPostfix()
 		}
 		else
 		{
-			if (stack_op.IsEmpty() == 0)
-			stack_op.Push(infix[i]);//(1)
+			result[result_pos] = tmp_char;//(1)
+			result_pos++;
+			result[result_pos] = '\0';
 		}
 	}
 	//-----(4)-----
@@ -80,6 +85,7 @@ string TPostfix::ToPostfix()
 		if (stack_op.IsEmpty() == 0)
 		result[result_pos] = stack_op.Pop();
 		result_pos++;
+		result[result_pos] = '\0';
 	}
 	//-------------
 	postfix = result;

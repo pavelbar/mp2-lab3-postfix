@@ -25,6 +25,7 @@ public:
 	{
 		if ((val == '*') || (val == '/')) return 2;
 		if ((val == '+') || (val == '-')) return 1;
+		return -7;
 	}
 	string GetInfix() { return infix; }
 	string GetPostfix() { return postfix; }
