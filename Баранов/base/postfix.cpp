@@ -3,7 +3,7 @@
 
 string TPostfix::ToPostfix()
 {
-	infix = *this;
+	infix = string("ab+");
 	postfix = string("ab+");
   return postfix;
 }
