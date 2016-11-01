@@ -28,6 +28,8 @@ TStack<T>::TStack(int len) {
     pMem = new T[size];// pMem[0] and pMem[1]
 }
 
+
+
 template <class T>
 TStack<T>::~TStack() {
     delete[]pMem;

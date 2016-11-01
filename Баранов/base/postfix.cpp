@@ -12,6 +12,7 @@ string TPostfix::ToPostfix()
     int arg_stack_priority;
     int arg_priority;
     char tmp_char;
+    int flag;
     /*http://natalia.appmat.ru/c&c++/postfisso.html
     Алгоритм перевода выражения в постфиксную запись следующий:
     (1) Константы и переменные кладутся в формируемую запись в порядке их появления в исходном массиве.
@@ -26,68 +27,76 @@ string TPostfix::ToPostfix()
     удаляется из стека.
     (4)После того, как мы добрались до конца исходного выражения, операции, оставшиеся в стеке, перекладываются в формируемое выражение.
     */
-    for (unsigned int i = 0; i<infix.length(); i++)
+    for (unsigned int i = 0; i < infix.length(); i++)
     {
         tmp_char = infix[i];
+        flag = 0;
         if ((tmp_char == '+') || (tmp_char == '-') || (tmp_char == '*') || (tmp_char == '/'))
         {
-            if ((stack_op.IsEmpty() == 0) && (stack_op.Top() == '(')) stack_op.Push(tmp_char);//(a)
-            //-----(b)-----
-            if ((stack_op.IsEmpty() == 0))
+            //--a--
+            if (stack_op.IsEmpty() == 1)
             {
+                stack_op.Push(tmp_char);
+                flag = 1;
+            }
+            else
+                if ((stack_op.IsEmpty() == 0) && (stack_op.Top() == '('))
+                {
+                    stack_op.Push(tmp_char);
+                    flag = 1;
+                }
+            //-----
+            if (flag == 0)
+            {
+                //--b--
                 arg_stack_priority = Priority(stack_op.Top());
                 arg_priority = Priority(tmp_char);
-            }
-            if ((stack_op.IsEmpty() == 0) && (arg_priority > arg_stack_priority)) stack_op.Push(tmp_char);
-            //-------------
-            else
-                //-----(c)-----
-            {
-                if (stack_op.IsEmpty() == 0)
+                if (arg_priority > arg_stack_priority) stack_op.Push(tmp_char);
+                //-----
+                else
+                {
+                    //--c--
                     while ((stack_op.IsEmpty() == 0) && ((stack_op.Top() != '(') || (arg_priority < Priority(stack_op.Top()))))  //пока
                     {
-
-
                         result[result_pos] = stack_op.Pop();
                         result_pos++;
                         result[result_pos] = NULL;
-
                     }
-                stack_op.Push(tmp_char);
-                //-------------
-            }
-
-            if (tmp_char == '(') stack_op.Push(tmp_char);//(2)
-            //-----(3)-----
-            if ((stack_op.IsEmpty() == 0) && (tmp_char == ')'))
-            {
-                while ((stack_op.IsEmpty() == 0) && (stack_op.Top() != '('))//пока
-                {
-                    result[result_pos] = stack_op.Pop();
-                    result_pos++;
-                    result[result_pos] = '\0';
+                    stack_op.Push(tmp_char);
+                    //-----
                 }
-                if (stack_op.IsEmpty() == 0)
-                    stack_op.Pop();
             }
-            //-------------
         }
-        else
+        if (tmp_char == '(') stack_op.Push(tmp_char);//(2)
+        //--3--
+        if (tmp_char == ')')
         {
-            result[result_pos] = tmp_char;//(1)
+            while (stack_op.Top() != '(')//пока
+            {
+                result[result_pos] = stack_op.Pop();
+                result_pos++;
+                result[result_pos] = NULL;
+            }
+            stack_op.Pop();
+        }
+        //-----
+        if ((tmp_char != '(') && (tmp_char != ')') && (tmp_char != '+') && (tmp_char != '-') && (tmp_char != '*') && (tmp_char != '/'))
+        {
+            //--1--
+            result[result_pos] = tmp_char;
             result_pos++;
-            result[result_pos] = '\0';
+            result[result_pos] = NULL;
+            //-----
         }
     }
-    //-----(4)-----
+    //--4--
     while (stack_op.IsEmpty() == 0)//пока
     {
-        if (stack_op.IsEmpty() == 0)
-            result[result_pos] = stack_op.Pop();
+        result[result_pos] = stack_op.Pop();
         result_pos++;
         result[result_pos] = '\0';
     }
-    //-------------
+    //-----
     postfix = result;
     return postfix;
 }
