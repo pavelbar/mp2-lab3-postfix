@@ -87,6 +87,12 @@ TEST(TPostfix, mixed_test_number_six)
     EXPECT_EQ(result, postfix.ToPostfix());
 }
 
-
+TEST(TPostfix, mixed_test_number_seven)
+{
+    string expression = "a+b*c/d-d";
+    string result = "abc*d/+d-";
+    TPostfix postfix(expression);
+    EXPECT_EQ(result, postfix.ToPostfix());
+}
 
 

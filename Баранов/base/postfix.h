@@ -15,11 +15,6 @@ public:
     {
         infix = val;
     }
-    TPostfix(const TPostfix &v)
-    {
-        infix = v.infix;
-        postfix = v.postfix;
-    }
 
     int Priority(char val)
     {

@@ -5,14 +5,9 @@ using namespace std;
 
 string TPostfix::ToPostfix()
 {
-    char result[100];
+    char result[MaxSize];
     int result_pos = 0;
-    TStack<char> stack_op(100);
-    //---приоритеты----
-    int arg_stack_priority;
-    int arg_priority;
-    char tmp_char;
-    int flag;
+    TStack<char> stack_op(MaxSize);
     /*http://natalia.appmat.ru/c&c++/postfisso.html
     Алгоритм перевода выражения в постфиксную запись следующий:
     (1) Константы и переменные кладутся в формируемую запись в порядке их появления в исходном массиве.
@@ -29,65 +24,47 @@ string TPostfix::ToPostfix()
     */
     for (unsigned int i = 0; i < infix.length(); i++)
     {
-        tmp_char = infix[i];
-        flag = 0;
-        if ((tmp_char == '+') || (tmp_char == '-') || (tmp_char == '*') || (tmp_char == '/'))
+        //--1--
+        if ((infix[i] != '(') && (infix[i] != ')') && (infix[i] != '+') && (infix[i] != '-') && (infix[i] != '*') && (infix[i] != '/'))
         {
-            //--a--
-            if (stack_op.IsEmpty() == 1)
-            {
-                stack_op.Push(tmp_char);
-                flag = 1;
-            }
-            else
-                if ((stack_op.IsEmpty() == 0) && (stack_op.Top() == '('))
-                {
-                    stack_op.Push(tmp_char);
-                    flag = 1;
-                }
-            //-----
-            if (flag == 0)
-            {
-                //--b--
-                arg_stack_priority = Priority(stack_op.Top());
-                arg_priority = Priority(tmp_char);
-                if (arg_priority > arg_stack_priority) stack_op.Push(tmp_char);
-                //-----
-                else
-                {
-                    //--c--
-                    while ((stack_op.IsEmpty() == 0) && ((stack_op.Top() != '(') || (arg_priority < Priority(stack_op.Top()))))  //пока
-                    {
-                        result[result_pos] = stack_op.Pop();
-                        result_pos++;
-                        result[result_pos] = NULL;
-                    }
-                    stack_op.Push(tmp_char);
-                    //-----
-                }
-            }
+            result[result_pos] = infix[i];
+            result_pos++;
+            result[result_pos] = '\0';
         }
-        if (tmp_char == '(') stack_op.Push(tmp_char);//(2)
-        //--3--
-        if (tmp_char == ')')
+        //--2--
+        if (infix[i] == '(') stack_op.Push(infix[i]);
+        //--3--                                            
+        if (infix[i] == ')')
         {
             while (stack_op.Top() != '(')//пока
             {
                 result[result_pos] = stack_op.Pop();
                 result_pos++;
-                result[result_pos] = NULL;
+                result[result_pos] = '\0';
             }
             stack_op.Pop();
         }
         //-----
-        if ((tmp_char != '(') && (tmp_char != ')') && (tmp_char != '+') && (tmp_char != '-') && (tmp_char != '*') && (tmp_char != '/'))
+        if ((infix[i] == '+') || (infix[i] == '-') || (infix[i] == '*') || (infix[i] == '/'))
         {
-            //--1--
-            result[result_pos] = tmp_char;
-            result_pos++;
-            result[result_pos] = NULL;
+            //--a--
+            if (stack_op.IsEmpty() || stack_op.Top() == '(') stack_op.Push(infix[i]);
+            //--b--
+            else if ( Priority(infix[i]) > Priority(stack_op.Top()) ) stack_op.Push(infix[i]);
+            //--c--
+            else
+            {
+                while (!stack_op.IsEmpty() && Priority(infix[i]) <= Priority(stack_op.Top()))
+                {
+                    result[result_pos] = stack_op.Pop();
+                    result_pos++;
+                    result[result_pos] = '\0';
+                }
+                stack_op.Push(infix[i]);
             //-----
+            }
         }
+
     }
     //--4--
     while (stack_op.IsEmpty() == 0)//пока
