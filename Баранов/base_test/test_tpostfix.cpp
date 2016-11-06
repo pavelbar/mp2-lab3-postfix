@@ -95,4 +95,38 @@ TEST(TPostfix, mixed_test_number_seven)
     EXPECT_EQ(result, postfix.ToPostfix());
 }
 
+TEST(TPostfix, calc_simple_multiplication_test)
+{
+    string expression = "5*5";
+    double result = 25;
+    TPostfix postfix(expression);
+    postfix.ToPostfix();
+    EXPECT_EQ(result, postfix.Calculate());
+}
 
+TEST(TPostfix, calc_simple_addition_test)
+{
+    string expression = "5+5";
+    double result = 10;
+    TPostfix postfix(expression);
+    postfix.ToPostfix();
+    EXPECT_EQ(result, postfix.Calculate());
+}
+
+TEST(TPostfix, calc_simple_division_test)
+{
+    string expression = "5/5";
+    double result = 1;
+    TPostfix postfix(expression);
+    postfix.ToPostfix();
+    EXPECT_EQ(result, postfix.Calculate());
+}
+
+TEST(TPostfix, calc_simple_subtraction_test)
+{
+    string expression = "5-5";
+    double result = 0;
+    TPostfix postfix(expression);
+    postfix.ToPostfix();
+    EXPECT_EQ(result, postfix.Calculate());
+}

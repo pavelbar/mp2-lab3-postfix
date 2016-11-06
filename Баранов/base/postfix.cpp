@@ -1,6 +1,8 @@
 ﻿#include "postfix.h"
 #include "stack.h"
 #include <iostream>
+#include <cctype>   // для функции isdigit
+#include <cstdlib>  // для функции atoi (преобразовать символы к типу int)
 using namespace std;
 
 string TPostfix::ToPostfix()
@@ -80,6 +82,55 @@ string TPostfix::ToPostfix()
 
 double TPostfix::Calculate()
 {
-    //not implemented
-    return 0;
+    //https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%80%D0%B0%D1%82%D0%BD%D0%B0%D1%8F_%D0%BF%D0%BE%D0%BB%D1%8C%D1%81%D0%BA%D0%B0%D1%8F_%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D1%8C#.D0.9E.D0.B1.D1.89.D0.B8.D0.B9_.D0.BF.D0.BE.D1.80.D1.8F.D0.B4.D0.BE.D0.BA  
+    //Алгоритм:
+    //1. Обработка входного символа
+    //    a) Если на вход подан операнд, он помещается на вершину стека.
+    //    b) Если на вход подан знак операции, то соответствующая операция выполняется над требуемым количеством значений, 
+    //    извлечённых из стека, взятых в порядке добавления.Результат выполненной операции кладётся на вершину стека.
+    //2. Если входной набор символов обработан не полностью, перейти к шагу 1.
+    //3. После полной обработки входного набора символов результат вычисления выражения лежит на вершине стека.
+    TStack<double> stack(MaxSize);
+    for (unsigned int i = 0; i < postfix.length(); i++)
+    {
+        //--a--
+        if (postfix[i] != '+' && postfix[i] != '-' && postfix[i] != '*' && postfix[i] != '/')
+        {
+            char tmp[MaxSize];
+            tmp[0] = postfix[i];
+            stack.Push(atoi(tmp));
+            stack.Top();//отладка
+        }
+        else
+        //--b--
+        {
+            if (postfix[i] == '+')
+            {
+                double tmp1 = stack.Pop();
+                double tmp11 = stack.Pop();
+                stack.Push(tmp11 + tmp1);
+            }
+            if (postfix[i] == '-')
+            {
+                double tmp1 = stack.Pop();
+                double tmp11 = stack.Pop();
+                stack.Push(tmp11 - tmp1);
+            }
+            if (postfix[i] == '/')
+            {
+                double tmp1 = stack.Pop();
+                double tmp11 = stack.Pop();
+                stack.Push(tmp11 / tmp1);
+            }
+            if (postfix[i] == '*')
+            {
+                double tmp1 = stack.Pop();
+                double tmp11 = stack.Pop();
+                stack.Push(tmp11 * tmp1);
+            }
+        }
+
+    }
+
+    return stack.Pop();;
 }
