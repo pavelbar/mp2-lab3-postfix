@@ -104,21 +104,20 @@ TEST(TStack, IsEmpty_false_of_full_stack) //тест
     TStack<int> v(2);
     v.Push(4);
     v.Push(4);
-
-    EXPECT_EQ(0, v.IsEmpty());
+    ASSERT_FALSE(v.IsEmpty());
 }
 
 TEST(TStack, IsEmpty_true_of_clear_stack) //тест
 {
     TStack<int> v(2);
-    EXPECT_EQ(1, v.IsEmpty());
+    ASSERT_TRUE(v.IsEmpty());
 }
 
 TEST(TStack, IsEmpty_false_of_any_stack) //тест
 {
     TStack<int> v(2);
     v.Push(4);
-    EXPECT_EQ(0, v.IsEmpty());
+    ASSERT_FALSE(v.IsEmpty());
 }
 
 TEST(TStack, IsFull_true_of_full_stack) //тест
@@ -126,18 +125,18 @@ TEST(TStack, IsFull_true_of_full_stack) //тест
     TStack<int> v(2);
     v.Push(4);
     v.Push(4);
-    EXPECT_EQ(1, v.IsFull());
+    ASSERT_TRUE(v.IsFull());
 }
 
 TEST(TStack, IsFull_false_of_clear_stack)  //тест
 {
     TStack<int> v(2);
-    EXPECT_EQ(0, v.IsFull());
+    ASSERT_FALSE(v.IsFull());
 }
 
 TEST(TStack, IsFull_false_of_any_stack)  //тест
 {
     TStack<int> v(2);
     v.Push(4);
-    EXPECT_EQ(0, v.IsFull());
+    ASSERT_FALSE(v.IsFull());
 }
