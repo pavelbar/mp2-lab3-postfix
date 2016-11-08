@@ -1,12 +1,7 @@
-﻿#include <gtest.h>
-#include <windows.h>
-#include "stack.h"
-#include <iostream>
-
-using namespace std;
+#include <gtest.h>
 
 int main(int argc, char **argv)
 {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
