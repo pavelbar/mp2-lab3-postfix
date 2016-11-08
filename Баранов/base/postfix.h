@@ -1,4 +1,5 @@
-﻿#ifndef __POSTFIX_H__
+﻿//-
+#ifndef __POSTFIX_H__
 #define __POSTFIX_H__
 
 #include <string>
@@ -8,24 +9,24 @@ using namespace std;
 
 class TPostfix
 {
-    string infix;
-    string postfix;
+	string infix;
+	string postfix;
 public:
-    TPostfix(string val)
-    {
-        infix = val;
-    }
+	TPostfix(string val)
+	{
+		infix = val;
+	}
 
-    int Priority(char val)
-    {
-        if ((val == '*') || (val == '/')) return 2;
-        if ((val == '+') || (val == '-')) return 1;
-        return -7;
-    }
-    string GetInfix() { return infix; }
-    string GetPostfix() { return postfix; }
-    string ToPostfix();
-    double Calculate(); 
+	int Priority(char val)
+	{
+		if ((val == '*') || (val == '/')) return 2;
+		if ((val == '+') || (val == '-')) return 1;
+		return -7;
+	}
+	string GetInfix() { return infix; }
+	string GetPostfix() { return postfix; }
+	string ToPostfix();
+	double Calculate();
 };
 
 #endif
