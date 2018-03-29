@@ -1,87 +1,176 @@
-//-
-#include "postfix.h"
-#include "stack.h"
-#include <iostream>
-#include <cctype>   // для функции isdigit
-#include <cstdlib>  // для функции atoi (преобразовать символы к типу int)
-using namespace std;
+//print("Hello World! :-)");
 
-string TPostfix::ToPostfix()
+
+extension String {
+    subscript (i: Int) -> Character {
+        return Array(self.characters)[i]
+    }
+
+    subscript (r: CountableClosedRange<Int>) -> String {
+        return String(Array(self.characters)[r])
+    }
+
+    subscript (r: CountableRange<Int>) -> String {
+        return self[r.lowerBound...r.upperBound-1]
+    }
+}
+
+func atoi(str: Character) -> Double 
 {
-	char result[MaxSize];
-	int result_pos = 0;
-	TStack<char> stack_op(MaxSize);
-	/*http://natalia.appmat.ru/c&c++/postfisso.html
-	Алгоритм перевода выражения в постфиксную запись следующий:
-	(1) Константы и переменные кладутся в формируемую запись в порядке их появления в исходном массиве.
-	При появлении операции в исходном массиве:
-	(a) если в стеке нет операций или верхним элементом стека является открывающая скобка, операции кладётся в стек;
-	(b) если новая операции имеет больший* приоритет, чем верхняя операции в стеке, то новая операции кладётся в стек;
-	(c) если новая операция имеет меньший или равный приоритет, чем верхняя операции в стеке, то
-	операции, находящиеся в стеке, до ближайшей открывающей скобки или до операции с приоритетом меньшим, чем у новой операции,
-	перекладываются в формируемую запись, а новая операции кладётся в стек.
-	(2)Открывающая скобка кладётся в стек.
-	(3)Закрывающая скобка выталкивает из стека в формируемую запись все операции до ближайшей открывающей скобки, открывающая скобка
-	удаляется из стека.
-	(4)После того, как мы добрались до конца исходного выражения, операции, оставшиеся в стеке, перекладываются в формируемое выражение.
-	*/
-	for (unsigned int i = 0; i < infix.length(); i++)
+	var result: Double = 0;
+	if (str == "1")
 	{
-		//--1--
-		if ((infix[i] != '(') && (infix[i] != ')') && (infix[i] != '+') && (infix[i] != '-') && (infix[i] != '*') && (infix[i] != '/'))
+	    result = 1;
+	}
+	
+		if (str == "2")
+	{
+	    result = 2;
+	}
+	
+		if (str == "3")
+	{
+	    result = 3;
+	}
+	
+		if (str == "4")
+	{
+	    result = 4;
+	}
+	
+		if (str == "5")
+	{
+	    result = 5;
+	}
+	
+		if (str == "6")
+	{
+	    result = 6;
+	}
+	
+		if (str == "7")
+	{
+	    result = 7;
+	}
+		if (str == "8")
+	{
+	    result = 8;
+	}
+		if (str == "9")
+	{
+	    result = 9;
+	}
+	//--
+	return result
+}
+
+class TPostfix
+{
+  var infix: String
+  var postfix: String
+  var lenInfix: Int
+
+  init(val: String) 
+  {
+    self.infix = val
+     self.postfix = val
+    self.lenInfix = infix.characters.count
+  }
+  
+    func GetInfix() -> String   {return infix}
+  
+    func GetPostfix() -> String {return postfix}
+    
+    func GetSizeInfix() -> Int  {return lenInfix}
+    
+    func Priority(val: Character) -> Int
+	{
+		if ((val == "*") || (val == "/")) 
 		{
-			result[result_pos] = infix[i];
-			result_pos++;
-			result[result_pos] = '\0';
+		    return 2;
 		}
-		//--2--
-		if (infix[i] == '(') stack_op.Push(infix[i]);
-		//--3--                                            
-		if (infix[i] == ')')
+	
+		if ((val == "+") || (val == "-")) 
 		{
-			while (stack_op.Top() != '(')//пока
+		    return 1;
+		}
+		
+		return -7;
+	}
+   
+    func ToPostfix() -> String
+    {
+        var result: String = ""
+        var stack_op: String = ""
+         
+         for i in 0...self.lenInfix - 1
+         {
+         //--1--
+             if (infix[i] != "(" && infix[i] != ")" && infix[i] != "+" && infix[i] != "-" && infix[i] != "*" && infix[i] != "/" )
+             {
+                result.insert(infix[i], at: result.endIndex) 
+             }
+        //--2--
+	    	if (infix[i] == "(")
+	    	{
+	        	stack_op.insert(infix[i], at: stack_op.endIndex)//Push
+	    	}
+	    //--3--  
+	    if (infix[i] == ")")
+	    {
+	    	while (stack_op[stack_op.characters.count - 1] != "(")//Top
 			{
-				result[result_pos] = stack_op.Pop();
-				result_pos++;
-				result[result_pos] = '\0';
+                result.insert( stack_op[stack_op.characters.count - 1], at: result.endIndex)//Pop1
+                stack_op.remove(at: stack_op.index(before: stack_op.endIndex))//Pop2
 			}
-			stack_op.Pop();
-		}
-		//-----
-		if ((infix[i] == '+') || (infix[i] == '-') || (infix[i] == '*') || (infix[i] == '/'))
-		{
-			//--a--
-			if (stack_op.IsEmpty() || stack_op.Top() == '(') stack_op.Push(infix[i]);
+			stack_op.remove(at: stack_op.index(before: stack_op.endIndex))//Pop2
+	    }
+	    //-----
+	    if ((infix[i] == "+") || (infix[i] == "-") || (infix[i] == "*") || (infix[i] == "/"))
+	    {
+	        //--a--
+			if (stack_op.characters.count == 0 || stack_op[stack_op.characters.count - 1] == "(") 
+			{
+			    stack_op.insert(infix[i], at: stack_op.endIndex)//Push
+			}
 			//--b--
-			else if (Priority(infix[i]) > Priority(stack_op.Top())) stack_op.Push(infix[i]);
+			else if (Priority(val: infix[i]) > Priority(val: stack_op[stack_op.characters.count - 1]))
+			{
+		    	stack_op.insert(infix[i], at: stack_op.endIndex)//Push
+			}
 			//--c--
 			else
 			{
-				while (!stack_op.IsEmpty() && Priority(infix[i]) <= Priority(stack_op.Top()))
+				while (stack_op.characters.count != 0 && Priority(val: infix[i]) <= Priority(val: stack_op[stack_op.characters.count - 1]))
 				{
-					result[result_pos] = stack_op.Pop();
-					result_pos++;
-					result[result_pos] = '\0';
+				result.insert( stack_op[stack_op.characters.count - 1], at: result.endIndex)//Pop1
+                stack_op.remove(at: stack_op.index(before: stack_op.endIndex))//Pop2
 				}
-				stack_op.Push(infix[i]);
+				stack_op.insert(infix[i], at: stack_op.endIndex)//Push
 				//-----
 			}
-		}
+	    }
+         //--
+        }
+        //--4--
+        while (stack_op.characters.count != 0)//пока
+        {
+            
+            result.insert( stack_op[stack_op.characters.count - 1], at: result.endIndex)//Pop1
+            stack_op.remove(at: stack_op.index(before: stack_op.endIndex))//Pop2
+        }
+        //-----
+         postfix = result;
+         return postfix;
+    }
+    
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//----------------------------------------------------------------
 
-	}
-	//--4--
-	while (stack_op.IsEmpty() == 0)//пока
-	{
-		result[result_pos] = stack_op.Pop();
-		result_pos++;
-		result[result_pos] = '\0';
-	}
-	//-----
-	postfix = result;
-	return postfix;
-}
 
-double TPostfix::Calculate()
+    func Calculate() -> Double
 {
 	//https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%80%D0%B0%D1%82%D0%BD%D0%B0%D1%8F_%D0%BF%D0%BE%D0%BB%D1%8C%D1%81%D0%BA%D0%B0%D1%8F_%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D1%8C#.D0.9E.D0.B1.D1.89.D0.B8.D0.B9_.D0.BF.D0.BE.D1.80.D1.8F.D0.B4.D0.BE.D0.BA  
 	//Алгоритм:
@@ -91,73 +180,97 @@ double TPostfix::Calculate()
 	//    извлечённых из стека, взятых в порядке добавления.Результат выполненной операции кладётся на вершину стека.
 	//2. Если входной набор символов обработан не полностью, перейти к шагу 1.
 	//3. После полной обработки входного набора символов результат вычисления выражения лежит на вершине стека.
-	char a[MaxSize];
-	double b[MaxSize];
-	int flag;
-	double k;
 
-	TStack<double> stack(MaxSize);
-	for (unsigned int i = 0; i < postfix.length(); i++)
+	var stack = [Double]()
+
+    for i in 0...postfix.characters.count - 1
 	{
 		//--a--
-		if (postfix[i] != '+' && postfix[i] != '-' && postfix[i] != '*' && postfix[i] != '/')
+		if (postfix[i] != "+" && postfix[i] != "-" && postfix[i] != "*" && postfix[i] != "/")
 		{
-			flag = 0;
-			a[i] = postfix[i];
-			for (int j = 0; j < i; j++)
-				if (postfix[i] == a[j])
-				{
-					flag = 1;
-					stack.Push(b[j]);
-					break;
-				}
 
-			if (flag == 0)
-			{
-				char tmp[MaxSize];
-				tmp[0] = postfix[i];
-				tmp[1] = '\0';
-				if ( isdigit(tmp[0]) ) b[i] = atoi(tmp); // преобразовать символы к типу int
-				else
-				{
-				cout << postfix[i] << "=";
-				cin >> k;
-				b[i] = k;
-				}
-				stack.Push(b[i]);
-			}
+    		if ((postfix[i] == "0") || (postfix[i] == "1") || (postfix[i] == "2") || (postfix[i] == "3") || (postfix[i] == "4") || (postfix[i] == "5") || (postfix[i] == "6") || (postfix[i] == "7") || (postfix[i] == "8") || (postfix[i] == "9") )
+    		{
+    		    stack.append(atoi(str: postfix[i])) // преобразовать символы к типу double
+    		}
+    		else
+    		{
+    			print(postfix[i], "=");
+                let k = Double(readLine(strippingNewline: true)!)!
+    			stack.append(k)
+    		}
 
 		}
 		else
 			//--b--
 		{
-			if (postfix[i] == '+')
+			if (postfix[i] == "+")
 			{
-				double tmp1 = stack.Pop();
-				double tmp11 = stack.Pop();
-				stack.Push(tmp11 + tmp1);
+				let tmp1: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				let tmp11: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				stack.append(tmp11 + tmp1)
 			}
-			if (postfix[i] == '-')
+			if (postfix[i] == "-")
 			{
-				double tmp1 = stack.Pop();
-				double tmp11 = stack.Pop();
-				stack.Push(tmp11 - tmp1);
+				let tmp1: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				let tmp11: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				stack.append(tmp11 - tmp1)
 			}
-			if (postfix[i] == '/')
+			if (postfix[i] == "/")
 			{
-				double tmp1 = stack.Pop();
-				double tmp11 = stack.Pop();
-				stack.Push(tmp11 / tmp1);
+				let tmp1: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				let tmp11: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				stack.append(tmp11 / tmp1)
 			}
-			if (postfix[i] == '*')
+			if (postfix[i] == "*")
 			{
-				double tmp1 = stack.Pop();
-				double tmp11 = stack.Pop();
-				stack.Push(tmp11 * tmp1);
-			}
+				let tmp1: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				let tmp11: Double = stack[stack.count - 1]
+				stack.removeLast()
+				
+				stack.append(tmp11 * tmp1)
+		 	}
 		}
-
 	}
+	return stack[stack.count - 1]
 
-	return stack.Pop();;
 }
+
+};
+
+var postfix = TPostfix(val: "2+2+2")
+print("----");
+print("prior+") 
+print(postfix.Priority(val: "+")) 
+print("----");
+print("prior*") 
+print(postfix.Priority(val: "*")) 
+print("----");
+print("GetInfix") 
+print(postfix.GetInfix())
+print("----");
+print("GetPostfix") 
+print(postfix.GetPostfix())
+print("----");
+print("GetSizeInfix") 
+print(postfix.GetSizeInfix())
+print("----");
+print("ToPostfix") 
+print(postfix.ToPostfix()) 
+print("----");
+print("Calculate=") 
+print(postfix.Calculate()) 
